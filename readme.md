@@ -23,6 +23,363 @@ separation, sample processing, streaming, and automated organization of music li
 
 ## Internet Radio
 
+<!-- BlackIce Radio Widget -->
+<div id="radio-widget">
+  <div class="radio-art-wrap">
+    <img
+      id="radio-art"
+      src="/assets/img/radio-placeholder.png"
+      alt="Current album artwork"
+    >
+  </div>
+
+  <div class="radio-info">
+    <div class="radio-status">
+      <span id="radio-status-dot"></span>
+      <span id="radio-status-text">Checking broadcast...</span>
+    </div>
+
+    <div id="radio-title">BlackIce Radio</div>
+    <div id="radio-artist">Waiting for stream metadata...</div>
+
+    <audio
+      id="radio-player"
+      controls
+      preload="none"
+      src="https://radio.guyyatsu.me/live">
+    </audio>
+  </div>
+</div>
+
+<style>
+#radio-widget {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 520px;
+  padding: 12px;
+  border: 1px solid #555;
+  background: #111;
+  color: #ddd;
+  font-family: monospace;
+}
+
+.radio-art-wrap {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+}
+
+#radio-art {
+  width: 96px;
+  height: 96px;
+  display: block;
+  object-fit: cover;
+  background: #222;
+  border: 1px solid #444;
+}
+
+.radio-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.radio-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+}
+
+#radio-status-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #777;
+}
+
+#radio-status-dot.online {
+  background: #00d000;
+  box-shadow: 0 0 5px #00d000;
+}
+
+#radio-status-dot.offline {
+  background: #d00000;
+  box-shadow: 0 0 5px #d00000;
+}
+
+#radio-title {
+  font-size: 1rem;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#radio-artist {
+  margin-top: 3px;
+  color: #999;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#radio-player {
+  width: 100%;
+  height: 32px;
+  margin-top: 10px;
+}
+
+@media (max-width: 420px) {
+  #radio-widget {
+    align-items: flex-start;
+  }
+
+  .radio-art-wrap,
+  #radio-art {
+    width: 72px;
+    height: 72px;
+  }
+
+  .radio-art-wrap {
+    flex-basis: 72px;
+  }
+}
+</style>
+
+<script>
+(() => {
+  const ICECAST_STATUS =
+    "https://radio.guyyatsu.me/status-json.xsl";
+
+  const STREAM_MOUNT = "/live";
+
+  const PLACEHOLDER_ART =
+    "/assets/img/radio-placeholder.png";
+
+  const POLL_INTERVAL = 15000;
+
+  const art = document.getElementById("radio-art");
+  const titleEl = document.getElementById("radio-title");
+  const artistEl = document.getElementById("radio-artist");
+  const statusDot = document.getElementById("radio-status-dot");
+  const statusText = document.getElementById("radio-status-text");
+
+  let lastTrack = null;
+
+  function setOnline(online) {
+    statusDot.classList.remove("online", "offline");
+
+    if (online) {
+      statusDot.classList.add("online");
+      statusText.textContent = "ON AIR";
+    } else {
+      statusDot.classList.add("offline");
+      statusText.textContent = "OFFLINE";
+    }
+  }
+
+  function findLiveSource(data) {
+    let sources = data?.icestats?.source;
+
+    if (!sources) {
+      return null;
+    }
+
+    if (!Array.isArray(sources)) {
+      sources = [sources];
+    }
+
+    return sources.find(source => {
+      const listenUrl = source.listenurl || "";
+
+      try {
+        return new URL(listenUrl).pathname === STREAM_MOUNT;
+      } catch {
+        return listenUrl.endsWith(STREAM_MOUNT);
+      }
+    }) || null;
+  }
+
+  function parseTrack(rawTitle) {
+    if (!rawTitle) {
+      return {
+        artist: "",
+        title: ""
+      };
+    }
+
+    const separator = rawTitle.indexOf(" - ");
+
+    if (separator === -1) {
+      return {
+        artist: "",
+        title: rawTitle.trim()
+      };
+    }
+
+    return {
+      artist: rawTitle.slice(0, separator).trim(),
+      title: rawTitle.slice(separator + 3).trim()
+    };
+  }
+
+  async function getArtwork(artist, title) {
+    if (!artist && !title) {
+      return PLACEHOLDER_ART;
+    }
+
+    const term = encodeURIComponent(
+      [artist, title].filter(Boolean).join(" ")
+    );
+
+    try {
+      const response = await fetch(
+        `https://itunes.apple.com/search` +
+        `?term=${term}` +
+        `&entity=song` +
+        `&limit=1`
+      );
+
+      if (!response.ok) {
+        throw new Error("Artwork lookup failed");
+      }
+
+      const data = await response.json();
+      const result = data.results?.[0];
+
+      if (!result?.artworkUrl100) {
+        return PLACEHOLDER_ART;
+      }
+
+      /*
+       * Apple normally returns a 100x100 image.
+       * Request a larger version for better quality.
+       */
+      return result.artworkUrl100.replace(
+        "100x100bb",
+        "500x500bb"
+      );
+    } catch (error) {
+      console.warn("Artwork lookup error:", error);
+      return PLACEHOLDER_ART;
+    }
+  }
+
+  async function updateWidget() {
+    try {
+      const response = await fetch(
+        ICECAST_STATUS + "?_=" + Date.now(),
+        {
+          cache: "no-store"
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Icecast returned HTTP ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+      const source = findLiveSource(data);
+
+      if (!source) {
+        setOnline(false);
+
+        titleEl.textContent = "BlackIce Radio";
+        artistEl.textContent = "Broadcast offline";
+        art.src = PLACEHOLDER_ART;
+
+        lastTrack = null;
+        return;
+      }
+
+      setOnline(true);
+
+      /*
+       * Icecast usually exposes metadata through `title`.
+       *
+       * Mixxx normally sends:
+       *
+       *     Artist - Track Title
+       */
+      const rawTitle =
+        source.title ||
+        source.server_name ||
+        "";
+
+      const track = parseTrack(rawTitle);
+
+      if (track.title) {
+        titleEl.textContent = track.title;
+      } else {
+        titleEl.textContent = "BlackIce Radio";
+      }
+
+      if (track.artist) {
+        artistEl.textContent = track.artist;
+      } else {
+        artistEl.textContent = "Live Broadcast";
+      }
+
+      const trackKey =
+        `${track.artist}|${track.title}`;
+
+      /*
+       * Don't hit the artwork service every 15 seconds if
+       * the song hasn't changed.
+       */
+      if (trackKey !== lastTrack) {
+        lastTrack = trackKey;
+
+        art.src = PLACEHOLDER_ART;
+
+        const artwork = await getArtwork(
+          track.artist,
+          track.title
+        );
+
+        /*
+         * Make sure the song didn't change while the
+         * artwork request was running.
+         */
+        if (lastTrack === trackKey) {
+          art.src = artwork;
+        }
+      }
+
+    } catch (error) {
+      console.warn("Radio status error:", error);
+
+      setOnline(false);
+
+      titleEl.textContent = "BlackIce Radio";
+      artistEl.textContent = "Broadcast unavailable";
+      art.src = PLACEHOLDER_ART;
+
+      lastTrack = null;
+    }
+  }
+
+  art.addEventListener("error", () => {
+    if (!art.src.endsWith(PLACEHOLDER_ART)) {
+      art.src = PLACEHOLDER_ART;
+    }
+  });
+
+  updateWidget();
+
+  setInterval(
+    updateWidget,
+    POLL_INTERVAL
+  );
+})();
+</script>
+
 I also operate my own internet radio infrastructure.
 
 This combines several of my interests: music, Linux, networking, web development, streaming media, and automation.
