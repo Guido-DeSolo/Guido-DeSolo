@@ -12,7 +12,7 @@ That drags in the code side naturally: audio analysis, BPM/key detection, metada
 
 ## Radio
 
-I run my own internet radio setup — Icecast doing the streaming, Mixxx and FFmpeg feeding it, Nginx and custom web stuff wrapped around it. I've hooked stream status into my site and messed with audio-reactive visuals. Same M.O. as everything else: pick a target, learn whatever gets me there.
+I run IP radio broadcasting software to get my sound out; that's the main point of the webserver.  I get people listening by playing bangers, and transition between tracks with my own every so often.  Once I actually get around to _finishing_ some tracks I intend to compile an album and push it through my website using tape cassettes and qr codes.
 
 ## Hardware
 
