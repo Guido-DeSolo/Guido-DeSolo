@@ -1,64 +1,29 @@
-I’m **Guyyatsu** — a Linux enthusiast, programmer, self-hoster, electronic musician, and builder of things that probably could have been solved with an existing service but are 
-much more interesting when built from scratch.
+I'm Guyyatsu — Linux nerd, programmer, self-hoster, electronic musician. I build stuff that already exists as a service somewhere, because doing it myself is way more interesting.
 
-Most of my work lives somewhere at the intersection of **Linux, Python, networking, automation, audio, hardware, experimental software**, before it’s actually usable. I tend to 
-self-host things because running the infrastructure myself forces me to understand what is actually happening beneath the abstraction.
+Most of what I do sits somewhere between Linux, Python, networking, hardware, and audio, and none of it starts out usable. I self-host because running the infrastructure myself is the only way to actually know what's happening under the hood instead of trusting someone else's black box.
 
-My projects range from relatively conventional web applications and automation scripts to home infrastructure, internet services, music production tools, computer vision 
-experiments, and systems that connect software to physical or creative processes.
+I've got everything from web apps and automation scripts to home servers, internet radio, music tools, and computer-vision junk drawer experiments. I like following a system end to end — writing the app, then figuring out how it gets served, then breaking that boundary on purpose until I understand it.
 
-I enjoy understanding the complete path through a system—whether it’s writing the application but not necessarily knowing how it will be served or proxied, debugging those 
-boundaries before they become rigid, or building a system where sound and video can meaningfully interact while remaining playable and controllable.
+Audio & noise
 
-## Audio, Synthesis & Experimental Media
+Music's a big part of this too. I make electronic music with a mess of hardware synths, software synths, modular gear, DAWs, MIDI stuff, and Linux audio plumbing — VCV Rack, Ardour, Mixxx, FFmpeg, JACK, Icecast, whatever's around.
 
-Music and audio engineering are another major part of my technical interest. I produce electronic music and work with a mixture of hardware synthesizers, software synthesizers, 
-modular environments, DAWs, MIDI equipment, and Linux audio infrastructure.
+That drags in the code side naturally: audio analysis, BPM/key detection, metadata, stem separation, sample chopping, automated library sorting. If it touches sound, I've probably tried to script it.
 
-My setup and experiments have involved tools such as **VCV Rack**, **Ardour**, **Mixxx**, **FFmpeg**, **JACK**, **Icecast**, **hardware synthesizers**, **MIDI controllers**, and 
-custom software.
+Radio
 
-This has naturally led to programming projects—I’ve built or experimented with systems for things like audio analysis, BPM/musical-key detection, metadata management, stem 
-separation, sample processing, streaming, and automated organization of music libraries.
+I run my own internet radio setup — Icecast doing the streaming, Mixxx and FFmpeg feeding it, Nginx and custom web stuff wrapped around it. I've hooked stream status into my site and messed with audio-reactive visuals. Same M.O. as everything else: pick a target, learn whatever gets me there.
 
-## Internet Radio
+Hardware
 
-I also operate my own internet radio infrastructure.
+I'm not purely a software person. I like tearing into old hardware, building weird peripherals, messing with cameras and capture cards, making cheap gear do things it was never meant to. Got a 3D printer too — if nothing off-the-shelf does what I want, I just print the part. Software and hardware aren't really separate categories to me. That's usually the fun part anyway.
 
-This combines several of my interests: music, Linux, networking, web development, streaming media, and automation.
+How I work
 
-The system uses **Icecast** for streaming, with tools like **Mixxx**, **FFmpeg**, **Nginx**, and custom web components forming the surrounding infrastructure. I’ve worked on 
-integrating stream status information into my website, along with experiments involving synchronized or audio-reactive visual components.
+I'm project-first, not syntax-first. I pick an objective and learn whatever's in the way of it — docs, logs, breaking things, working backward from a failure until I get it. That's made debugging my best skill: I like the problems where every piece works fine on its own and the whole thing still doesn't, because that's never a syntax problem. That's an assumptions problem.
 
-Projects like this are representative of how I like to work: start with an objective and learn whatever is required to accomplish it.
+More
 
-## Hardware
+Everything else — code, writeups, whatever else I've built — lives at guyyatsu.me. The repo's just the tip of it.
 
-I’m also comfortable working outside the purely software side of computing.
-
-I enjoy repurposing older hardware, building unusual peripherals, experimenting with cameras and capture devices, and finding ways to make inexpensive hardware perform tasks that 
-weren’t necessarily designed for.
-
-A 3D printer is another useful tool in this toolbox—being able to design a physical component when an off-the-shelf solution doesn’t quite do what I want makes the boundary between 
-software and hardware much less rigid.
-
-These are usually the fun parts of projects.
-
-## How I Work
-
-I’m largely project-driven, but my approach is more about understanding systems rather than just knowing syntax. Instead of learning a technology in isolation, I usually start with 
-an objective and learn whatever is required to accomplish it. This means I tend to be comfortable entering unfamiliar territory, reading documentation, experimenting, breaking 
-things, inspecting logs, and working backward from failures until I understand what’s happening beneath the abstraction.
-
-That approach has made troubleshooting one of my strongest skills—I enjoy problems where the individual components seem to work correctly but the complete system doesn’t. Those 
-problems require understanding interfaces and assumptions rather than simply knowing syntax.
-
-## Elsewhere
-
-More of my projects, experiments, writing, and assorted things I’ve built around it can be found on my personal website:
-
-**[guyyatsu.me](https://guyyatsu.me)**
-
-The code is just the tip of the iceberg—the website shows more of the infrastructure, projects, and assorted things I’ve built around it.
-
-If something here looks unusual, overengineered, experimental, or like it started with the sentence *"I wonder if I could...*" , there’s a good chance that’s exactly what happened.
+If something here looks unhinged, overengineered, or like it started with "I wonder if I could..." — yeah, that's exactly what happened.
