@@ -1,8 +1,16 @@
-I'm Guyyatsu — Linux nerd, programmer, self-hoster, electronic musician. I build stuff that already exists as a service somewhere, because doing it myself is way more interesting.
+I'm more like a cyberpunk than some kind of a corpo-codemonkey.  I put a certain blend of __*un-proffessionality*__ that an AI just can't replicate, and HR can't just explain.  
 
-Most of what I do sits somewhere between Linux, Python, networking, hardware, and audio, and none of it starts out usable. I self-host because running the infrastructure myself is the only way to actually know what's happening under the hood instead of trusting someone else's black box.
+---
+my typing quirk is using absolutely no capitalization or punctuation
+---
+Most of what I do here is something to do with Linux, Python, networking, hardware, and audio.  I self-host a bunch of services for two reasons;
+  - **A.**) Because I need/want the tool and want to run it myself, because:
+  - **B.**) Tryna get one of them fancy remote software jobs, and I _didn't go to college_, I just **learned it on the job**.
 
-I've got everything from web apps and automation scripts to home servers, internet radio, music tools, and computer-vision junk drawer experiments. I like following a system end to end — writing the app, then figuring out how it gets served, then breaking that boundary on purpose until I understand it.
+I'll admit I use _a lot of ai_ because actually **writing out code by hand is bullshit**; and a chat model can help me rationalize my project ideas and get the sloggy writing part out of the way so I can grace the world with my delightful character in prose actually meant to be read.  
+
+At least I can say I'm doing something to offset my usage by running my own in-house models for a lot of things but you just _know_ there's some librul out there tryna take our ai's.
+
 
 ## Audio & noise
 
