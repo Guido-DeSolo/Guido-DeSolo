@@ -14,9 +14,7 @@ At least I can say I'm doing something to offset my usage by running my own in-h
 
 ## Audio & noise
 
-Music's a big part of this too. I make electronic music with a mess of hardware synths, software synths, modular gear, DAWs, MIDI stuff, and Linux audio plumbing — VCV Rack, Ardour, Mixxx, FFmpeg, JACK, Icecast, whatever's around.
-
-That drags in the code side naturally: audio analysis, BPM/key detection, metadata, stem separation, sample chopping, automated library sorting. If it touches sound, I've probably tried to script it.
+Music's a part of this too.  All work and no play makes me a dullboi; I make dance music with hardware and soft synths.  My desktop workflow stack uses Ardour, Audacity, LMMS, VCV Rack, and Mixxx.  
 
 ## Radio
 
