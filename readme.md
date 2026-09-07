@@ -1,4 +1,4 @@
-I'm more like a cyberpunk than some kind of a corpo-codemonkey.  I put a certain blend of __*un-proffessionality*__ that an AI just can't replicate, and HR can't just explain.  
+I'm more like a cyberpunk than some kind of a corpo-codemonkey.  I put a certain blend of __*un-proffessionality*__ that an AI can't just replicate, and HR just can't explain.  
 
 ---
 my typing quirk is using absolutely no capitalization or punctuation
